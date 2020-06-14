@@ -23,4 +23,5 @@ This project will attempt to extract the relevant features and detect Mirai-like
 - IoT Network Intrusion Dataset at IEEE DataPort
 - Aposemat IoT-23
 
-
+## Batching implementation
+As tcpreplay sends the PCAP packets across the interface, a Python shell runs a tshark capture for N seconds saved as CSV. CSV ran through the model. IPs likely to be malicious are flagged, sent to a log. The Python shell reads the log and captures taffic filtered to that IP (src and dst) within the general capture iterations.
