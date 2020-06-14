@@ -1,5 +1,8 @@
 # IoT botnet detection
 
+Working on some code for transforming tshark packet capture output to encoded features. 
+See https://github.com/oberljn/muroor.
+
 ## Bootstrapping
 Overview of the initial, cyclical stage of a botnet (Antonakakis, April, Bailey, Bernhard et al., 2017; Kumar and Lim, 2019):
 - A device (or machine) becomes infected with the malware, either through a phishing campaign that tricks a user into downloading the malware or via another infected device.
