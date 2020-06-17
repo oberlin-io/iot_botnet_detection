@@ -1,4 +1,4 @@
 path:
-  proj: muroor
-  fs: muroor/fs
-  dev: muroor/dev
+  proj: /home/oberljn/iot_bot_det
+  fs: /home/oberljn/iot_bot_det/fs
+  dev: /home/oberljn/iot_bot_det/dev

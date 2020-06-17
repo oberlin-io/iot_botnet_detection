@@ -25,3 +25,9 @@ def get_active_ports(n=10):
     comnp=(srcp+dstp).nlargest(n).index.astype('int')
 
     return comnp
+
+
+if __name__=='__main__':
+    l=get_active_ports(n=20)
+    for i in l:
+        print(i)

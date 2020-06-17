@@ -12,6 +12,9 @@ import yaml
 
 
 def get_sample(tshk):
+    
+    with open('conf.yaml') as f: conf=yaml.safe_load(f.read())
+    
     sampletime=dt.now()
 
     # Run capture into dataframe
@@ -30,14 +33,15 @@ def get_sample(tshk):
 
     #add flag map
 
-    print(''.join(  'Sample time: ', sampletime, '\n',
-                    'Packets: ', df.shape[0], '\n'))
+    print(''.join([ 'Sample time: ', sampletime.strftime('%Y-%m-%d %H:%M:%S'), '\n',
+                    'Packets: ', str(df.shape[0]), '\n']))
 
     p=os.path.join(conf['path']['fs'], 'cap.csv')
-    if path.exists(p):
-        df.to_csv('cap.csv', index=False, mode='a', header=False)
+    if os.path.exists(p):
+        #add file size check and slice off head (old)
+        df.to_csv(p, index=False, mode='a', header=False)
     else:
-        df.to_csv('cap.csv', index=False)
+        df.to_csv(p, index=False)
 
 
 def cap(duration=60, interim=4*60):
@@ -47,8 +51,6 @@ def cap(duration=60, interim=4*60):
     '''
 
     print('Capturing packets. Duration {}s, interim {}s.'.format(duration, interim))
-
-    with open('conf.yaml') as f: conf=yaml.safe_load(f.read())
 
     tshk=' '.join([
           'sudo tshark',
@@ -81,5 +83,5 @@ def cap(duration=60, interim=4*60):
         get_sample(tshk)
         sleep(interim)
 
-if __name__='__main__':
+if __name__=='__main__':
     cap()
