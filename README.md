@@ -25,3 +25,27 @@ This project will attempt to extract the relevant features and detect Mirai-like
 
 ## Batching implementation
 As tcpreplay sends the PCAP packets across the interface, a Python shell runs a tshark capture for N seconds saved as CSV. CSV ran through the model. IPs likely to be malicious are flagged, sent to a log. The Python shell reads the log and captures taffic filtered to that IP (src and dst) within the general capture iterations.
+
+## Notes on IoT-23 Mirai
+There are a few Mirai captures, one is
+https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-34-1/README.html
+
+In that README, IP 192.168.1.195 is marked as the infected device.
+Can do Wireshark filter: ip.addr==192.168.1.195, then export to CSV.
+
+Analysis in Python pandas
+```
+df.Source.value_counts()
+192.168.1.195      214294  Infected device
+185.244.25.235      13012
+147.231.100.5         702
+192.168.1.1           246  Gateway
+195.113.144.201        60
+77.78.107.252          54
+82.113.53.40           41
+89.221.210.188         19
+78.108.102.237         16
+37.187.104.44          16
+81.2.248.189            8
+147.251.48.140          1
+```
