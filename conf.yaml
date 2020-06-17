@@ -1,0 +1,4 @@
+path:
+  proj: muroor
+  fs: muroor/fs
+  dev: muroor/dev
