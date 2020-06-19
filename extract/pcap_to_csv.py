@@ -1,31 +1,27 @@
-'''
-'''
-
-from datetime import datetime as dt
-from io import StringIO
+from utils import config
 import os
-import pandas as pd
 import subprocess
-from time import sleep
-import yaml
 
-def cap(pcap, ism, infektd):
+
+conf = config.conf()
+
+
+def cap():
+    '''   
+    pcap:   .PCAP file in FS. Will replace file extension with CSV to FS path.
+    #add option to capture interface i='eth0' sampling local traffic / tcpdump samples'
     '''
-    pcap .pcap file
-    ism  output file name
-    infektd  infected IP address 
-    '''
-    fs_masar='../fs' #add replace fs path with config fs path
+
+    pcap_path = os.path.join(conf['fspath'], conf['processfile'] + '.pcap')
+    csv_path = os.path.join(conf['fspath'], conf['processfile'] + '.csv')
     
-    
-    p=os.path.join(fs_masar, pcap)
 
     tshk=' '.join([
           'sudo tshark',
           #'-i eth0',
-          '-r {}'.format(p),
+          '-r {}'.format(pcap_path),
           #'-a duration:{}'.format(duration),
-          '-c 20', #testing
+          #'-c 20', #testing
           '-T fields',
           '-e frame.number',
           '-e frame.time',
@@ -46,24 +42,14 @@ def cap(pcap, ism, infektd):
           '-E separator=,',
           '-E quote=d',
           '-E occurrence=f',
+          '> {}'.format(csv_path),
           ])
+
     sp=subprocess.Popen(tshk, shell=True, stdin=None,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    o,e=sp.communicate()
-    o=o.decode(encoding='UTF-8')
-    df=pd.read_csv(StringIO(o))
+    o,e = sp.communicate()
 
-    # Periods are annoying in column names
-    for c in df.columns:
-        c1=c.replace('.','_')
-        df.rename(columns={c:c1}, inplace=True)
-
-    # Infected IP address -- labeling malicious packets essentially
-
-
-    p=os.path.join(fs_masar, ism)
-    df.to_csv(p, index=False)
-    return df
 
 if __name__=='__main__':
     cap()
+
