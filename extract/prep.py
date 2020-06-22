@@ -1,6 +1,7 @@
 from utils import config
 import os
 import pandas as pd
+import numpy as np
 
 conf = config.conf()
 
@@ -14,64 +15,51 @@ def uscore(df):
 def prefilter(df):
     df = df[df._ws_col_Protocol!='ARP']
 
+def fill_ports(df):
+    # Where TCP ports null, fille with UDP ports
+    mapp = np.where(df.tcp_srcport.isna(), df.udp_srcport, df.tcp_srcport)
+    df['srcport'] = mapp
+    mapp = np.where(df.tcp_dstport.isna(), df.udp_dstport, df.tcp_dstport)
+    df['dstport'] = mapp
+
+    df.drop(columns=['tcp_srcport', 'tcp_dstport', 'udp_srcport', 'udp_dstport'], inplace=True)
+
 
 def label(df):
     # Label the target
 
     # Where the infected packet is known by its src or dst IP(s)
-    df['test'] = 'allahu'
     for ip in conf['infectedip']:
         df.loc[ (df.ip_src==ip) | (df.ip_dst==ip), 'infected' ]
 
+def drop(df):
+    df.drop(columns=['ip_src', 'ip_dst'], inplace=True)
+    #add drop all nulls
 
-def tcpflag_map():
+def tcpflag(df):
     # create funcion that takes flag hashes and transforms into text, eg synack
     # first get unique list of the hashes
     # for each on that list, convert to binary - split into list -
     # which is used like a filter against text list in order 
     # check https://www.manitonetworks.com/flow-management/2016/10/16/decoding-tcp-flags
-    pass
-
-
-def drop(df):
-    df.drop(columns=['ip_src', 'ip_dst'], inplace=True)
-
-def explore(df):
-
-    # Whats the target makeup
-    #here df.infected.sum() / df.shape[0]
-'''
-    #add change below to protocols by target 1|0
-    # Report on transport layer protocols by IP, scaled
-    ipproto = df[['ip_src', 'ip_dst']].join(pd.get_dummies(df.ip_proto))
-    ipproto.rename(columns={6:'tcp',17:'udp'}, inplace=True) #add mapping file
-
-    srcsum = ipproto.groupby('ip_src').sum()
-    dstsum = ipproto.groupby('ip_dst').sum()
-
-    protosum = srcsum.append(dstsum, sort=True)
-    protosum = protosum.groupby(protosum.index).sum()
-
-    protosum['total'] = protosum.sum(axis=1)
-    protosum.sort_values(by='total', ascending=False, inplace=True)
-
-    proto_cols = protosum.columns.to_list()
-    proto_cols.remove('total')
-    for col in proto_cols:
-        protosum[col] = protosum[col] / protosum['total'].sum()
-
-    protosum.total = protosum[proto_cols].sum(axis=1)
-
-    for col in protosum.columns:
-        protosum[col] = protosum[col].round(4)
     
-    csv_path = os.path.join(conf['fspath'], conf['processfile'] + '_transport_protocols_by_ip.csv')
-    protosum.to_csv(csv_path)
-
-    print(protosum.to_string())
-
-'''
-    #add Ports report
+    # UDP for example has no flags
+    #df.loc[df.tcp_flag.isna(), 'tcp_flag'] = 'None'
+    pass
+    # This is broken
+    '''
+    def get_flag(x):
+        if not isinstance(x, float):
+            b = list( bin(int(x, 16))[2:].zfill(6) )
+            print(b)
+            f = ['u','a','p','r','s','f']
+            print(f)
+            flag = list()
+            for i in range(len(f)):
+                if b[i] == '1': flag.append(f[i])
+            return '_'.join(flag)
+    df['flagTest'] = df.tcp_flags.apply(lambda x: get_flag(x))
+    '''
 
 
 def select_ports(df):
@@ -88,13 +76,14 @@ def prep():
     df = pd.read_csv(csv_path)
     uscore(df)
     prefilter(df)
-    
-    drop(df)
-    explore(df)
+    fill_ports(df)
+    #drop(df)
+    #tcpflag(df)
 
     print(df.head().to_string(index=False))
     print(df.tail().to_string(index=False))
 
+    df.to_csv( os.path.join( conf['fspath'], conf['processfile'] + '_prep_TESTING.csv'), index=False)
 
 if __name__=='__main__':
     prep()

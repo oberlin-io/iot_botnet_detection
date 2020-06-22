@@ -16,6 +16,7 @@ def cap():
     csv_path = os.path.join(conf['fspath'], conf['processfile'] + '.csv')
     
 
+    # Add UDP ports, or really all proto ports in one column (two src/dst)
     tshk=' '.join([
           'sudo tshark',
           #'-i eth0',
@@ -34,6 +35,8 @@ def cap():
           '-e ip.dst',
           '-e tcp.srcport',
           '-e tcp.dstport',
+          '-e udp.srcport',
+          '-e udp.dstport',
           '-e tcp.seq',
           '-e tcp.flags',
           #'-e tcp.payload',
@@ -45,6 +48,7 @@ def cap():
           '> {}'.format(csv_path),
           ])
 
+    print('Running tshark on {}'.format(csv_path))
     sp=subprocess.Popen(tshk, shell=True, stdin=None,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     o,e = sp.communicate()
