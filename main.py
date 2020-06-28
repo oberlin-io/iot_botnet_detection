@@ -8,4 +8,4 @@ f = conf['functions']
 
 if f['pcap_to_csv']: pcap_to_csv.cap()
 
-if f['prep']: prep.prep()
+if f['prep']: prep.extract()
