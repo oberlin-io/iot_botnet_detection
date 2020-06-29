@@ -1,5 +1,14 @@
 # IoT botnet detection
 
+## Run
+Run main to run pcap_to_csv on pcap file, per utils/config.yaml file.
+And to run to_vecspace.
+
+Currently, run append_sets separately. Currently no configuartion on that.
+But makes the train/test data.
+
+Whole thing needs organized.
+
 ## Bootstrapping
 Overview of the initial, cyclical stage of a botnet (Antonakakis, April, Bailey, Bernhard et al., 2017; Kumar and Lim, 2019):
 - A device (or machine) becomes infected with the malware, either through a phishing campaign that tricks a user into downloading the malware or via another infected device.

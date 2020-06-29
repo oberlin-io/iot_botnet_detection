@@ -6,7 +6,7 @@ import subprocess
 conf = config.conf()
 
 
-def cap():
+def main():
     '''   
     pcap:   .PCAP file in FS. Will replace file extension with CSV to FS path.
     #add option to capture interface i='eth0' sampling local traffic / tcpdump samples'
@@ -48,12 +48,12 @@ def cap():
           '> {}'.format(csv_path),
           ])
 
-    print('Running tshark on {}'.format(csv_path))
+    print('Running tshark on {}...'.format(pcap_path))
     sp=subprocess.Popen(tshk, shell=True, stdin=None,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     o,e = sp.communicate()
-
+    print(csv_path)
 
 if __name__=='__main__':
-    cap()
+    main()
 

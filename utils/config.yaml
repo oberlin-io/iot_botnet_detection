@@ -3,15 +3,44 @@ diceroll: 7
 fspath: /home/oberljn/iot_bot_det/fs
 # Storage path
 
-processfile: 2018-12-21-15-50-14-192.168.1.195
-#2018-09-21-capture
+processfile: 2018-09-21-capture
+#2018-12-21-15-50-14-192.168.1.195
 # PCAP file -- without extension -- to process in main.py
 
 infectedip:
 # List of infected IPs. Must correspond to processfile above.
-- 192.168.1.195 # 2018-12-21-15-50-14-192.168.1.195
+#- 192.168.1.195 # 2018-12-21-15-50-14-192.168.1.195
+- ~ # 2018-09-21-capture.pcap is benign
 
 functions:
   # Function management
-  pcap_to_csv: False
-  prep: True
+  pcap_to_csv: True
+  reports: False
+  to_vecspace: True
+  
+ports:
+# Port list
+# Feature selection makes use of this ports list.
+# Any other port found will be labeled 'other'.
+# Thus this list may be a whitelist and blacklist.
+# Current list is based on 'nmap --top-ports 20 localhost'
+- 21    # ftp
+- 22    # ssh
+- 23    # telnet
+- 25    # smtp
+- 53    # domain
+- 80    # http
+- 110   # pop3
+- 111   # rpcbind
+- 135   # msrpc
+- 139   # netbios-ssn
+- 143   # imap
+- 443   # https
+- 445   # microsoft-ds
+- 993   # imaps
+- 995   # pop3s
+- 1723  # pptp
+- 3306  # mysql
+- 3389  # ms-wbt-server
+- 5900  # vnc
+- 8080  # http-proxy
