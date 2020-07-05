@@ -3,18 +3,20 @@ diceroll: 7
 fspath: /home/oberljn/iot_bot_det/fs
 # Storage path
 
-processfile: 2018-09-21-capture
+processfile: 2019-01-10-19-22-51-192.168.1.198
+#2018-09-21-capture
 #2018-12-21-15-50-14-192.168.1.195
 # PCAP file -- without extension -- to process in main.py
 
 infectedip:
 # List of infected IPs. Must correspond to processfile above.
 #- 192.168.1.195 # 2018-12-21-15-50-14-192.168.1.195
-- ~ # 2018-09-21-capture.pcap is benign
+#- ~ # 2018-09-21-capture.pcap is benign
+- 192.168.1.198 # 2019-01-10-19-22-51-192.168.1.198
 
 functions:
   # Function management
-  pcap_to_csv: True
+  pcap_to_csv: False
   reports: False
   to_vecspace: True
   

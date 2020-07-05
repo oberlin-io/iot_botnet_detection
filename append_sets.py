@@ -13,6 +13,8 @@ conf = config.conf()
 
 pben='/home/oberljn/iot_bot_det/fs/2018-09-21-capture_vecspace.csv'
 pinf='/home/oberljn/iot_bot_det/fs/2018-12-21-15-50-14-192.168.1.195_vecspace.csv'
+pinf2='/home/oberljn/iot_bot_det/fs/2019-01-10-19-22-51-192.168.1.198_vecspace.csv'
+
 
 print('Stacking vector spaces:')
 print('- ' + pben)
@@ -20,6 +22,7 @@ print('- ' + pinf)
 print('...')
 
 df = pd.read_csv(pben).append(pd.read_csv(pinf), sort=True)
+df = df.append(pd.read_csv(pinf2), sort=True)
 
 df.fillna(0, inplace=True)
 df=df.astype('int')

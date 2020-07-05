@@ -46,6 +46,29 @@ wget --no-check-certificate https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Data
 README at
 https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-Honeypot-Capture-5-1/README.html
 
+
+
+
+
+## 2019-01-10-19-22-51-192.168.1.198.pcap
+CTU-IoT-Malware-Capture-43-1
+
+Source data. Malicious. Large file of malicious activity.
+If were to use, check for sizable benign file to shuffle with.
+
+Infected IP: 192.168.1.198
+
+```
+wget --no-check-certificate https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-43-1/2019-01-10-19-22-51-192.168.1.198.pcap
+```
+
+
+
+
+
+
+
+
 ## Ports
 Feature selection configuration
 
