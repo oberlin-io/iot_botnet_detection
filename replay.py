@@ -16,18 +16,20 @@ for pcap in conf['pcaps']:
 
 print('Setting MTU (maximum transmission unit) to {}'.format(conf['mtu']))
 
-cmd = 'sudo ip link set -eth0 mtu {}'.format(conf['mtu'])
-subprocess.call(cmd)
+cmd = 'sudo ip link set eth0 mtu {}'.format(conf['mtu'])
+
+sp=subprocess.Popen(cmd, shell=True, stdin=None,
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+o,e = sp.communicate()
 
 for pcap in conf['pcaps']:
     f = pcap['name'] + '.pcap'
     p = os.path.join(fs, f)
     print(''.join([f,'...']))
     cmd = 'sudo tcpreplay -i eth0 -K --loop 1 {}'.format(p)
-    subprocess.call(cmd)
-    '''sp = subprocess.Popen(cmd, shell=True, stdin=None,
+    sp = subprocess.Popen(cmd, shell=True, stdin=None,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     o,e = sp.communicate()
-    '''
 
 

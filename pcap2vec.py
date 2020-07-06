@@ -126,6 +126,7 @@ while True:
             elif b[i] == '1':
                 d[flags[i]].append(1)
     
+    #bug some batches have last few rows FG nans
     df = df.sample(frac=1).reset_index(drop=True)
     # Why does this shuffle produce no nans,
     # but excluding the shuffle makes many nans on the tail end?
@@ -133,6 +134,7 @@ while True:
     _ = df.FG.apply(lambda x: decode_encode_flags(x))
     df = df.join( pd.DataFrame(d), how='left')
 
+    df.drop(columns='FG', inplace=True)
 
     # Label the target via IP
     target_ips = list()
