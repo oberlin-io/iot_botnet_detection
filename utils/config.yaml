@@ -17,8 +17,8 @@ pcaps:
   - 192.168.1.195
     
 sample:
-  every_second: 60
-  batch_duration: 10 # Less than every_second, considering startup
+  every_second: 10
+  batch_duration: 5 # Less than every_second, considering startup
 
 fields:
 # Keys are verbatum packet capture tool
@@ -33,8 +33,8 @@ fields:
   #eth.src
   #eth.dst
   ip.proto:
-    capture: True
-    aka: ~
+    capture: False
+    aka: P
   ip.src:
    capture: True
    aka:  Sip
@@ -44,10 +44,10 @@ fields:
   #tcp.seq
   tcp.srcport:
     capture: True
-    aka: Sport
+    aka: Sporttcp
   tcp.dstport:
     capture: True
-    aka: Dport
+    aka: Dporttcp
   udp.srcport:
     capture: True
     aka: Sportudp
@@ -55,7 +55,7 @@ fields:
     capture: True
     aka: Dportudp
   tcp.flags:
-    capture: True,
+    capture: True
     aka: FG
   tcp.payload:
     capture: False
@@ -67,23 +67,23 @@ ports:
 # Any other port found will be labeled 'other'.
 # Thus this list may be a whitelist and blacklist.
 # Current list is based on 'nmap --top-ports 20 localhost'
-- 21    # ftp
+#- 21    # ftp
 - 22    # ssh
-- 23    # telnet
-- 25    # smtp
+#- 23    # telnet
+#- 25    # smtp
 - 53    # domain
 - 80    # http
-- 110   # pop3
-- 111   # rpcbind
-- 135   # msrpc
-- 139   # netbios-ssn
-- 143   # imap
+#- 110   # pop3
+#- 111   # rpcbind
+#- 135   # msrpc
+#- 139   # netbios-ssn
+#- 143   # imap
 - 443   # https
-- 445   # microsoft-ds
-- 993   # imaps
-- 995   # pop3s
-- 1723  # pptp
-- 3306  # mysql
-- 3389  # ms-wbt-server
-- 5900  # vnc
-- 8080  # http-proxy
+#- 445   # microsoft-ds
+#- 993   # imaps
+#- 995   # pop3s
+#- 1723  # pptp
+#- 3306  # mysql
+#- 3389  # ms-wbt-server
+#- 5900  # vnc
+#- 8080  # http-proxy
