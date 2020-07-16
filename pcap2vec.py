@@ -18,6 +18,7 @@ else:
     from io import StringIO
 
 conf = config.conf()
+verbose = False
 
 fs = conf['fspath']
 duration = conf['sample']['batch_duration']
@@ -171,7 +172,8 @@ while True:
     else:
         df.to_csv(vecspace_p, index=False)
     
-    print(df.head(20).to_string(index=False))
+    if verbose:
+        print(df.head(20).to_string(index=False))
 
 
     delta = every_sec-duration #edit minus processing time, or multithread

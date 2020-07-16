@@ -7,9 +7,9 @@ network_context: IoT-23 Mirai
 pcaps:
 # File name, w/o extension, becomes set variable name
 # Null is benign, or otherwise a control set 
-#- name: 2018-09-21-capture
-#  target_ips:
-#  - Null
+- name: 2018-09-21-capture
+  target_ips:
+  - Null
 - name: 2019-02-28-20-50-15-192.168.1.193
   target_ips:
   - 192.168.1.193

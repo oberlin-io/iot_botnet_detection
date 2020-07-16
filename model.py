@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -5,7 +6,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from utils import config
 
-
+conf = config.conf()
+fs = conf['fspath'] 
 # Get the vector space path per config file
 print(conf['network_context'])
 vecspace_p = os.path.join(
@@ -16,7 +18,7 @@ vecspace_p = os.path.join(
 X = pd.read_csv(vecspace_p)
 
 y = X.target.tolist()
-X.drop(columns='target', inplace=True)
+X.drop(columns=['target', 'Ftime', 'Sip', 'Dip',], inplace=True)
 
 
 # Get train and test splits
@@ -57,4 +59,5 @@ for f in range(X_train.shape[1]):
         round(importances[indices[f]], 4), ))
     
 #also see clf.predict_proba(variable 1, variable n)
+
 
