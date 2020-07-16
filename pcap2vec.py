@@ -1,3 +1,10 @@
+'''
+Runs tshark every N seconds for N seconds
+on interface
+Transforms each sample into vector space
+and appends to a vector space file named per the context
+set in config
+'''
 from utils import config
 import os
 import subprocess
@@ -17,7 +24,10 @@ duration = conf['sample']['batch_duration']
 every_sec = conf['sample']['every_second']
 
 print(conf['network_context'])
-vecspace_f = ''.join(['vecspace_',conf['network_context'].replace(' ','_'),'.csv'])
+vecspace_p = os.path.join(
+        fs,
+        ''.join(['vecspace_' + conf['network_context'].replace(' ','_'), '.csv']),
+)
 
 fields = list()
 print('Setting capture fields...')
@@ -155,11 +165,11 @@ while True:
         cols.insert(0, col)
     df = df[cols]
     
-    if os.path.isfile(vecspace_f):
-        with open(vecspace_f, 'a') as f:
+    if os.path.isfile(vecspace_p):
+        with open(vecspace_p, 'a') as f:
             df.to_csv(f, index=False, header=False)
     else:
-        df.to_csv(vecspace_f, index=False)
+        df.to_csv(vecspace_p, index=False)
     
     print(df.head(20).to_string(index=False))
 
@@ -168,9 +178,5 @@ while True:
     print('Sleeping for {} seconds...'.format(delta))
     sleep(delta)
 
-'''
-process batch in memory
-to vec, append to vecspace
-'''
 
 

@@ -1,27 +1,30 @@
 fspath: /home/oberljn/iot_bot_det/fs
 # Storage path
 
-network_context: GCP Server
+network_context: IoT-23 Mirai
 # Used as model set name
 
 pcaps:
 # File name, w/o extension, becomes set variable name
 # Null is benign, or otherwise a control set 
-- name: ~
+- name: 2019-01-10-19-22-51-192.168.1.198
   target_ips:
-  - ~
+  - 192.168.1.198
+- name: 2018-09-21-capture
+  target_ips: Null
+- name: 2018-12-21-15-50-14-192.168.1.195
+  target_ips:
+  - 192.168.1.195
     
 sample:
-  every_second: 60
-  batch_duration: 10 # Less than every_second, considering startup
+  every_second: 10
+  batch_duration: 5 # Less than every_second, considering startup
 
 mtu: 1600
 
 
 fields:
 # Keys are verbatum packet capture tool
-# Adding or removing fields does not change pcap2vec functions,
-# but it ought to
   frame.time:
     capture: True
     aka: Ftime
@@ -67,23 +70,23 @@ ports:
 # Any other port found will be labeled 'other'.
 # Thus this list may be a whitelist and blacklist.
 # Current list is based on 'nmap --top-ports 20 localhost'
-- 21    # ftp
+#- 21    # ftp
 - 22    # ssh
 - 23    # telnet
 #- 25    # smtp
-- 53    # domain
+#- 53    # domain
 - 80    # http
 #- 110   # pop3
 #- 111   # rpcbind
-- 135   # msrpc
+#- 135   # msrpc
 #- 139   # netbios-ssn
 #- 143   # imap
 - 443   # https
 #- 445   # microsoft-ds
 #- 993   # imaps
-- 995   # pop3s
-- 1723  # pptp
+#- 995   # pop3s
+#- 1723  # pptp
 #- 3306  # mysql
 #- 3389  # ms-wbt-server
 #- 5900  # vnc
-- 8080  # http-proxy
+#- 8080  # http-proxy
