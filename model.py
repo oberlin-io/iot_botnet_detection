@@ -17,6 +17,8 @@ vecspace_p = os.path.join(
 
 X = pd.read_csv(vecspace_p)
 
+X = X.dropna() # vecspace had a few unexpected nans. Try to resolve in pcap2vec.py
+
 y = X.target.tolist()
 X.drop(columns=['target', 'Ftime', 'Sip', 'Dip',], inplace=True)
 

@@ -7,6 +7,9 @@ and detect Mirai-like botnets via decision tree classifier on various datasets, 
 - IoT Network Intrusion Dataset at IEEE DataPort
 - Aposemat IoT-23
 
+Using this Google Sheet to keep track of PCAPs:
+https://docs.google.com/spreadsheets/d/1GZ2VQ6B_F8jlzWi_4MJbAmkZilbZp2SVI8hw3uMGo-s/edit?usp=sharing
+
 ## Manifest
 ### sample_ports.py
 Use to get a sample of ports that TCP and UDP protocols are using
@@ -37,12 +40,16 @@ which could be actual, live traffic and/or replayed PCAP files via ```replay.py`
 Add feature: Need to be able to filter out packets with src or dst IPs related
 to the VM instance (when replaying PCAP files for testing).
 
+Bug: Vecspace results had a few IP nans. Sportother also had a few nans.
+
 ### model.py
 Takes the project's vector space file:
 - Splits into train and test sets.
 - Fits, currently, a random forest classifier.
 - Tests predictions, outputting performance measures.
 
+Validation: Seems like the first features are the most important features.
+Why? Is random forest using the columns in same order as df.columns?
 
 ## Some overview notes on Mirai and detection
 ### Bootstrapping
