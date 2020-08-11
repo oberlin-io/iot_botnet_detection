@@ -47,19 +47,39 @@ cm = pd.DataFrame(data=con_mx,
     columns=['pred_pos','pred_neg'],)
 print(cm)
 
+from sklearn.metrics import roc_curve, auc
+prb = clf.predict_proba(X_test)
 
-# Get feature importances
+# Probability distribution
+prb = pd.DataFrame({'malicious': y_test, 'pos_prob': prb[:,1], 'neg_prob': prb[:,0]})
+prb['probability'] = np.where(prb.malicious==0, prb.neg_prob, prb.pos_prob)
+sel = ['malicious', 'probability']
+prb = prb[sel]
+prb.to_csv('Decision Probability.csv', index=False)
+
+# Feature importance
 importances = clf.feature_importances_
-std = np.std([tree.feature_importances_ for tree in clf.estimators_],axis=0)
-indices = np.argsort(importances)[::-1]
-#edit put into a csv instead or serve
-print("Feature ranking:")
-for f in range(X_train.shape[1]):
-    print("{}{}{}".format(
-        X_train.columns[f],
-        ' '*(13-len(X_train.columns[f])),
-        round(importances[indices[f]], 4), ))
-    
-#also see clf.predict_proba(variable 1, variable n)
+imp = pd.DataFrame({'feature': X_test.columns, 'importance': importances})
+imp.to_csv('Feature Importances.csv', index=False)
 
+# ROC - Area under the curve
+fpr, tpr, _ = roc_curve(y_test, prb[:,0], pos_label=0) # _ thresholds
+aucroc = auc(fpr, tpr)
+print(aucroc)
+
+pr = pd.DataFrame({'fpr':fpr, 'tpr':tpr})
+pr.to_csv('Receiver Operating Characteristic.csv', index=False)
+
+'''
+clf.fit(X_train, y_train)
+RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+criterion='gini', max_depth=2, max_features='auto',
+max_leaf_nodes=None, max_samples=None,
+min_impurity_decrease=0.0, min_impurity_split=None,
+min_samples_leaf=1, min_samples_split=2,
+min_weight_fraction_leaf=0.0, n_estimators=100,
+n_jobs=None, oob_score=False, random_state=0, verbose=0,
+warm_start=False)
+
+'''
 
